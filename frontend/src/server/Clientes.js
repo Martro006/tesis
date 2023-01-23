@@ -15,8 +15,8 @@ const actualizarClientes = async (data) => {
     return await axios.put(api + "clientes/update", data);
 }
 
-const buscarDatos = async (data) => {
-    return await axios.get(api + "clientes/buscarCli", { dato: data });
+const buscarDatos = async (dato) => {
+    return await axios.post(api + "clientes/buscarCli", { "dato": dato });
 }
 
 export const methods = {

@@ -26,6 +26,7 @@ const Breadcrumbs = lazy(() => import("../views/ui/Breadcrumbs"));
 
 const Ventas = lazy(() => import("../views/Ventas.js"));
 const Compras = lazy(() => import("../views/Compras.js"));
+const Productos = lazy(() => import("../views/Prod.js"));
 
 
 /*****Routes******/
@@ -55,6 +56,7 @@ const ThemeRoutes = [
       { path: "/usu", exact: true, element: <Usu /> },
       { path: "/ventas", exact: true, element: <Ventas /> },
       { path: "/compras", exact: true, element: <Compras /> },
+      { path: "/prod", exact: true, element: <Productos /> },
     ],
   },
   {

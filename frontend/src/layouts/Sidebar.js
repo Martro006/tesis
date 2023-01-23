@@ -50,10 +50,11 @@ const Sidebar = () => {
       <div className="d-flex align-items-center"></div>
       <div
         className="profilebg"
-        style={{ background: `url(${probg}) no-repeat` }}
+        style={{backgroundImage: `url(${"https://firebasestorage.googleapis.com/v0/b/opticaab-34b8f.appspot.com/o/tesis%2FTOZ.jpg?alt=media&token=c29fbd0a-fbfe-4ea4-834b-9d27de403cb9"})`,        
+        backgroundRepeat: 'no-repeat',
+        backgroundSize: "cover", minHeight: '120px'}}
       >
-        <div className="p-3 d-flex">
-          <img src={user1} alt="user" width="50" className="rounded-circle" />
+        <div className="p-3 d-flex">         
           <Button
             color="white"
             className="ms-auto text-white d-lg-none"
@@ -62,7 +63,7 @@ const Sidebar = () => {
             <i className="bi bi-x"></i>
           </Button>
         </div>
-        <div className="bg-dark text-white p-2 opacity-75">{usuario[0].log_correo}</div>
+        <div className="bg-dark mt-5 text-white p-2 opacity-75">{usuario[0].log_correo}</div>
       </div>
       <div className="p-3 mt-2">
         <Nav vertical className="sidebarNav">

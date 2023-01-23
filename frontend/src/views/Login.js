@@ -35,6 +35,7 @@ class Login extends Component {
                 if (datos.length > 0) {
                     this.setState({ status: true });
                     ReactSession.set("user", JSON.stringify(datos));
+                    window.location.href = '/';
                 } else {
                     this.setState({ status: false });
                 }

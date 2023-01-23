@@ -15,6 +15,8 @@ import { ReactComponent as LogoWhite } from "../assets/images/logos/materialprow
 import user1 from "../assets/images/users/user4.jpg";
 import { ReactSession } from 'react-client-session';
 
+
+
 const Header = () => {
   const [isOpen, setIsOpen] = React.useState(false);
 
@@ -27,17 +29,22 @@ const Header = () => {
   const showMobilemenu = () => {
     document.getElementById("sidebarArea").classList.toggle("showSidebar");
   };
-  const logoutSession= () => {
+  const logoutSession = () => {
     ReactSession.set("user", "null");
   }
   return (
     <Navbar color="primary" dark expand="md" className="fix-header">
       <div className="d-flex align-items-center">
-        <div className="d-lg-block d-none me-5 pe-3">
-          <Logo />
-        </div>
+
         <NavbarBrand href="/">
-          <LogoWhite className=" d-lg-none" />
+          <img
+            alt="logo"
+            src="https://firebasestorage.googleapis.com/v0/b/opticaab-34b8f.appspot.com/o/tesis%2FOPTICA%20AB%20rectangulo.png?alt=media&token=49f6490a-c16a-4533-9e63-596cf30e03ad"
+            style={{
+              height: 50,
+              width: 130
+            }}
+          />
         </NavbarBrand>
         <Button
           color="primary"
@@ -74,8 +81,6 @@ const Header = () => {
             ></img>
           </DropdownToggle>
           <DropdownMenu>
-            <DropdownItem>Edit Perfil</DropdownItem>
-            <DropdownItem divider />
             <DropdownItem href="/" onClick={logoutSession}>Logout</DropdownItem>
           </DropdownMenu>
         </Dropdown>

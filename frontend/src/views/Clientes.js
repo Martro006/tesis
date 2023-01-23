@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Button, Card, CardBody, CardHeader, Row, Col, Table, Modal, Input } from 'reactstrap';
 import { methods } from '../server/Clientes';
-import { Navigate } from 'react-router-dom';
 import ModalClientes from './modales/ModalClientes';
 
 const Clientes = () => {
@@ -12,6 +11,7 @@ const Clientes = () => {
     const [entrada, setEntrada] = useState({
         opcion: 0,
         id: -1,
+        dato: "",
         dni: "",
         nombres: "",
         correo: "",
@@ -32,7 +32,7 @@ const Clientes = () => {
         }
     }
     async function buscarDatos(dato) {
-        const res = await methods.buscarDatos(data);
+        const res = await methods.buscarDatos(dato);
         if (res.status === 200) {
             setData(res.data);
         }
@@ -118,83 +118,85 @@ const Clientes = () => {
                     </Col>
                 </Row>
                 <Row>
-                    <Col xs="6" sm="4">
+                    <Col divider xs="6" sm="4">
                         Buscar Clientes
                     </Col>
                     <Col xs="6" sm="4" lg="10" >
-                        <Input type='text' name='dato' placeholder='Escriba el nombre o la cedula del cliente' >
-                        </Input>
-                        <Button color='success' size='sm' onClick={() => buscarDatos()} >
+                        <Input type='text' name='dato' onChange={handleInputChange} value={entrada.dato} placeholder='Escriba el nombre o la cedula del cliente' />
+
+                        <Button color='success' size='sm' onClick={() => buscarDatos(entrada.dato)} >
                             Buscar
                         </Button>
                     </Col>
                 </Row>
             </CardHeader>
             <CardBody>
-                <Table striped responsive size='sm'>
-                    <thead>
-                        <tr>
-                            <th>
-                                #
-                            </th>
-                            <th>
-                                DNI
-                            </th>
-                            <th>
-                                NOMBRES
-                            </th>
-                            <th>
-                                CORREO
-                            </th>
-                            <th>
-                                DIRECCION
-                            </th>
-                            <th>
-                                TELEFONO
-                            </th>
-                            <th>
-                                OPCIONES
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {
-                            data.map((d, index) => (
-                                <tr key={index}>
-                                    <td>
-                                        {index + 1}
-                                    </td>
-                                    <td>
-                                        {d.cli_dni}
-                                    </td>
-                                    <td>
-                                        {d.cli_nombres}
-                                    </td>
-                                    <td>
-                                        {d.cli_correo}
-                                    </td>
-                                    <td>
-                                        {d.cli_direccion}
-                                    </td>
-                                    <td>
-                                        {d.cli_telf}
-                                    </td>
-                                    <td>
-                                        <Button onClick={() => seleccionarOpcion(index, 2)}>ACTUALIZAR</Button>
-                                        <ModalClientes
-                                            modalForm={modalForm}
-                                            toggleForm={toggleForm}
-                                            handleInputChange={handleInputChange}
-                                            entrada={entrada}
-                                            enviarDatos={enviarDatos}
-                                        />
-                                        <Button onClick={() => eliminarDatos(d.cli_id)}>ELIMINAR</Button>
-                                    </td>
-                                </tr>
-                            ))
-                        }
-                    </tbody>
-                </Table>
+                <div>
+                    <Table striped responsive size='sm'>
+                        <thead>
+                            <tr>
+                                <th>
+                                    #
+                                </th>
+                                <th>
+                                    DNI
+                                </th>
+                                <th>
+                                    NOMBRES
+                                </th>
+                                <th>
+                                    CORREO
+                                </th>
+                                <th>
+                                    DIRECCION
+                                </th>
+                                <th>
+                                    TELEFONO
+                                </th>
+                                <th>
+                                    OPCIONES
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {
+                                data.map((d, index) => (
+                                    <tr key={index}>
+                                        <td>
+                                            {index + 1}
+                                        </td>
+                                        <td>
+                                            {d.cli_dni}
+                                        </td>
+                                        <td>
+                                            {d.cli_nombres}
+                                        </td>
+                                        <td>
+                                            {d.cli_correo}
+                                        </td>
+                                        <td>
+                                            {d.cli_direccion}
+                                        </td>
+                                        <td>
+                                            {d.cli_telf}
+                                        </td>
+                                        <td>
+                                            <Button onClick={() => seleccionarOpcion(index, 2)}>ACTUALIZAR</Button>
+                                            <Button onClick={() => eliminarDatos(d.cli_id)}>ELIMINAR</Button>
+                                            <Button>Facturar </Button>
+                                        </td>
+                                    </tr>
+                                ))
+                            }
+                        </tbody>
+                    </Table>
+                    <ModalClientes modalForm={modalForm}
+                        toggleForm={toggleForm}
+                        handleInputChange={handleInputChange}
+                        entrada={entrada}
+                        enviarDatos={enviarDatos}
+                    />
+                </div>
             </CardBody>
         </Card>
     );

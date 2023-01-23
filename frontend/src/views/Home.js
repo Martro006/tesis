@@ -9,8 +9,8 @@ const Home = () => {
         <Row>
           <Col sm="12" lg="12" xl="12" xxl="12">
             <Image
-              src="https://firebasestorage.googleapis.com/v0/b/opticaab-34b8f.appspot.com/o/tesis%2FOPTICA.png?alt=media&token=a4640a57-7bd3-48ea-895f-ca2d909b155d"
-              width="100%"
+              src="https://firebasestorage.googleapis.com/v0/b/opticaab-34b8f.appspot.com/o/tesis%2Fimagen_2023-01-22_165105641.png?alt=media&token=aa6b54da-f0d7-4dfc-856e-d5f33c0c2863"
+              height = "500px"
             />
           </Col>
         </Row>
