@@ -1,6 +1,5 @@
 import { Button, ButtonGroup, Card, CardBody, CardHeader, CardTitle, Col, Row } from "reactstrap";
 import { useEffect, useState } from 'react';
-import { methods } from '../server/Compras';
 import { mothProd } from '../server/Prod';
 import ModalCrearProd from "./modales/ModalProdCrear";
 
@@ -87,12 +86,19 @@ const Compras = () => {
                     </Col>
                     <Col className="d-flex justify-content-center align-items-center">
                         <Button size="lg" color='primary' href="#/prod">
-                            Ver Productos creados
+                            Ver Productos Creados
                         </Button>
                     </Col>
                 </Row>
             </CardHeader>
             <CardBody>
+                <Row>
+                    <Col className="d-flex justify-content-center align-items-center">
+                        <Button color='success' size="lg" >
+                            Ingresar Nueva Compra
+                        </Button>
+                    </Col>
+                </Row>
                 <ModalCrearProd modalForm={modalFormProd}
                     toggleForm={toggleFormProd}
                     handleInputChange={handleInputChange}

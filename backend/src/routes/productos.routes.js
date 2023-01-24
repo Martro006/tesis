@@ -7,5 +7,6 @@ router.get("/", prodControler.getProductos);
 router.post("/insert", prodControler.addProductos);
 router.put("/update", prodControler.updateProductos);
 router.put("/delete", prodControler.deletePeoductos);
+router.post("/buscarProd", prodControler.buscarProductos);
 
 export default router;

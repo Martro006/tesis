@@ -13,8 +13,10 @@ const Prod = () => {
     const [entrada, setEntrada] = useState({
         opcion: 0,
         id: -1,
+        prodProv: "",
         prodCod: "",
         desc: "",
+        precio: "",
         cant: "",
         fecha: ""
     });
@@ -33,6 +35,8 @@ const Prod = () => {
                 ...entrada,
                 opcion: option,
                 id: data[index]["prod_id"],
+                prodProv: data[index]["prod_proveedor"],
+                precio: data[index]["prod_precio"],
                 prodCod: data[index]["prod_codigo"],
                 desc: data[index]["prod_descrip"],
                 fecha: data[index]["prod_fecha"]
@@ -49,6 +53,8 @@ const Prod = () => {
             const res = await mothProd.actualizarProd({
                 "prod_id": entrada.id,
                 "prod_codigo": entrada.prodCod,
+                "prod_proveedor": entrada.prodProv,
+                "prod_precio": entrada.precio,
                 "prod_descrip": entrada.desc,
                 "prod_fecha": entrada.fecha
             });
@@ -113,10 +119,16 @@ const Prod = () => {
                                 #
                             </th>
                             <th>
+                                PROVEEDOR
+                            </th>
+                            <th>
                                 CODIGO
                             </th>
                             <th>
                                 DESCRIPCION
+                            </th>
+                            <th>
+                                PRECIO
                             </th>
                             <th>
                                 CANTIDAD
@@ -137,10 +149,16 @@ const Prod = () => {
                                         {index + 1}
                                     </td>
                                     <td>
+                                        {d.prod_proveedor}
+                                    </td>
+                                    <td>
                                         {d.prod_codigo}
                                     </td>
                                     <td>
                                         {d.prod_descrip}
+                                    </td>
+                                    <td>
+                                        {d.prod_precio}
                                     </td>
                                     <td>
                                         {d.prod_cantidad}

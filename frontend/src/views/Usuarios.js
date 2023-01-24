@@ -155,13 +155,6 @@ const Usuarios = () => {
                                     </td>
                                     <td>
                                         <Button onClick={() => seleccionarOpcion(index, 2)}>ACTUALIZAR</Button>
-                                        <ModalLogin
-                                            modalForm={modalForm}
-                                            toggleForm={toggleForm}
-                                            handleInputChange={handleInputChange}
-                                            entrada={entrada}
-                                            enviarDatos={enviarDatos}
-                                        />
                                         <Button onClick={() => eliminarDatos(d.log_id)}>ELIMINAR</Button>
                                     </td>
                                 </tr>
@@ -169,6 +162,13 @@ const Usuarios = () => {
                         }
                     </tbody>
                 </Table>
+                <ModalLogin
+                    modalForm={modalForm}
+                    toggleForm={toggleForm}
+                    handleInputChange={handleInputChange}
+                    entrada={entrada}
+                    enviarDatos={enviarDatos}
+                />
             </CardBody>
         </Card>
     );

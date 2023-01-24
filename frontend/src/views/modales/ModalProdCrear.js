@@ -9,6 +9,26 @@ const ModalProdCreados = (props) => {
             </ModalHeader>
             <Form onSubmit={props.enviarDatos}>
                 <ModalBody>
+                <FormGroup row>
+                        <Label
+                            for="prodProvI"
+                            sm={3}
+                        >
+                            Proveedor
+                        </Label>
+                        <Col sm={9}>
+                            <Input
+                                bsSize="sm"
+                                id="prodProvI"
+                                name="prodProv"
+                                placeholder="Escriba el proveedor del producto"
+                                type="text"
+                                onChange={props.handleInputChange}
+                                value={props.entrada.prodProv}
+                                required
+                            />
+                        </Col>
+                    </FormGroup>
                     <FormGroup row>
                         <Label
                             for="prodCodI"
@@ -51,10 +71,30 @@ const ModalProdCreados = (props) => {
                     </FormGroup>
                     <FormGroup row>
                         <Label
+                            for="precioI"
+                            sm={3}
+                        >
+                            Precio
+                        </Label>
+                        <Col sm={9}>
+                            <Input
+                                bsSize="sm"
+                                id="precioI"
+                                name="precio"
+                                placeholder="Escriba el precio del producto"
+                                type="text"
+                                onChange={props.handleInputChange}
+                                value={props.entrada.precio}
+                                required
+                            />
+                        </Col>
+                    </FormGroup>
+                    <FormGroup row>
+                        <Label
                             for="fechaI"
                             sm={3}
                         >
-                            Correo
+                            Fecha
                         </Label>
                         <Col sm={9}>
                             <Input
