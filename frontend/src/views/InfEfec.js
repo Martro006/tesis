@@ -1,37 +1,47 @@
-import { Button, ButtonGroup, Card, CardTitle } from "reactstrap";
+import { Button, Card, CardBody, CardHeader, Col, Row } from "reactstrap";
 
 const InfEfec = () => {
     return (
         <Card className="center">
-            <br />
-            <CardTitle tag="h5" className="text-center" >
-                NAVEGACION
-            </CardTitle>
+            <CardHeader>
+                <Row>
+                    <Col className="d-flex justify-content-center align-items-center">
+                        <h3>
+                            <strong>
+                                INFORMES DE EFECTIVO
+                            </strong>
+                        </h3>
+                    </Col>
+                </Row>
+            </CardHeader>
 
-            <ButtonGroup className="my-2" size="lg">
-                <Button>
+            <CardBody>
+                <Button block>
                     Caja
                 </Button>
-            </ButtonGroup>
+                <br />
 
-            <ButtonGroup className="my-2" size="lg">
-                <Button>
+                <Button block>
                     Historial Caja
                 </Button>
-            </ButtonGroup>
 
-            <ButtonGroup className="my-2" size="lg">
-                <Button>
+
+                <br />
+                <Button block>
                     Cuadre de Caja
                 </Button>
-            </ButtonGroup>
-            <ButtonGroup className="my-2" size="lg">
-                <Button>
+
+                <br />
+                <Button block>
                     Valores Pendientes
                 </Button>
-            </ButtonGroup>
+
+                <br />
+
+            </CardBody>
         </Card>
     );
 }
 
 export default InfEfec;
+

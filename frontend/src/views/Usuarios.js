@@ -101,15 +101,22 @@ const Usuarios = () => {
         <Card>
             <br />
             <CardTitle tag="h5" className="text-center" >
-                LISTA DE USUARIOS DEL SISTEMA
+                <Col className="d-flex justify-content-center align-items-center">
+                    <h3>
+                        <strong>
+                            LISTA DE USUARIOS DEL SISTEMA
+                        </strong>
+                    </h3>
+                </Col>
             </CardTitle>
             <CardHeader>
                 <Row>
-                    <Col xs="6" sm="4" lg="10">
-                        USUARIOS
+                    <Col className="d-flex justify-content-center align-items-center">
+                        <strong>
+                            USUARIOS
+                        </strong>
                     </Col>
                     <Col xs="6" sm="4" lg="2" >
-
                         <Button outline color='primary' size='sm' onClick={() => seleccionarOpcion(0, 1)}>
                             Nuevo
                         </Button>

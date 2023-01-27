@@ -31,6 +31,7 @@ const Header = () => {
   };
   const logoutSession = () => {
     ReactSession.set("user", "null");
+    ReactSession.set("numFactEnv", "null");
   }
   return (
     <Navbar color="primary" dark expand="md" className="fix-header">

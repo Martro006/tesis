@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Button, Card, CardBody, CardHeader, Row, Col, Table, Modal, Input } from 'reactstrap';
+import { Button, Card, CardBody, CardHeader, Row, Col, Table, Modal, Input, Label } from 'reactstrap';
 import { methods } from '../server/Clientes';
 import ModalClientes from './modales/ModalClientes';
 
@@ -35,6 +35,7 @@ const Clientes = () => {
         const res = await methods.buscarDatos(dato);
         if (res.status === 200) {
             setData(res.data);
+            console.log(data);
         }
     }
     const seleccionarOpcion = (index, option) => {
@@ -80,6 +81,9 @@ const Clientes = () => {
                 "cli_direccion": entrada.direccion,
                 "cli_telf": entrada.telf
             });
+            if (res.status === 200) {
+                toggleForm();
+            }
         } else if (entrada.opcion === 2) {
             const res = await methods.actualizarClientes({
                 "cli_id": entrada.id,
@@ -89,12 +93,13 @@ const Clientes = () => {
                 "cli_direccion": entrada.direccion,
                 "cli_telf": entrada.telf
             });
+            if (res.status === 200) {
+                toggleForm();
+            }
         }
     }
 
     const handleInputChange = (event) => {
-        // console.log(event.target.name)
-        // console.log(event.target.value)
         setEntrada({
             ...entrada,
             [event.target.name]: event.target.value
@@ -109,7 +114,11 @@ const Clientes = () => {
             <CardHeader>
                 <Row>
                     <Col xs="6" sm="4" lg="10">
-                        CLIENTES
+                        <h4>
+                            <strong>
+                                CLIENTES
+                            </strong>
+                        </h4>
                     </Col>
                     <Col xs="6" sm="4" lg="2" >
                         <Button outline color='primary' size='sm' onClick={() => seleccionarOpcion(0, 1)} >
@@ -117,15 +126,25 @@ const Clientes = () => {
                         </Button>
                     </Col>
                 </Row>
-                <Row>
-                    <Col divider xs="6" sm="4">
-                        Buscar Clientes
+                <Row className="m-lg-4">
+                    <Col xs={3} sm={3} lg={3} className='text-end'>
+                        <Label>
+                            Buscar:
+                        </Label>
                     </Col>
-                    <Col xs="6" sm="4" lg="10" >
-                        <Input type='text' name='dato' onChange={handleInputChange} value={entrada.dato} placeholder='Escriba el nombre o la cedula del cliente' />
-
-                        <Button color='success' size='sm' onClick={() => buscarDatos(entrada.dato)} >
-                            Buscar
+                    <Col xs={7} sm={6} lg={6}>
+                        <Input
+                            bsSize="sm"
+                            name="dato"
+                            placeholder='Escriba un nombre o numero de cedula del cliente'
+                            type="text"
+                            onChange={handleInputChange}
+                            value={entrada.dato}
+                        />
+                    </Col>
+                    <Col xs={2} sm={3} lg={3}>
+                        <Button className='bg-gradient rounded-3' color='info' size='sm' onClick={() => buscarDatos(entrada.dato)} >
+                            🔍
                         </Button>
                     </Col>
                 </Row>

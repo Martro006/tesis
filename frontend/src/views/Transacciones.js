@@ -1,4 +1,4 @@
-import { Button, ButtonGroup, Card, CardTitle } from "reactstrap";
+import { Button, ButtonGroup, Card, CardBody, CardHeader, CardTitle, Col, Row } from "reactstrap";
 
 const Transacciones = () => {
     const character = {
@@ -8,22 +8,27 @@ const Transacciones = () => {
 
     return (
         <Card style={character}>
-            <br />
-            <CardTitle tag="h5" className="text-center" >
-                NAVEGACION
-            </CardTitle>
-
-            <ButtonGroup className="my-2" size="lg">
-                <Button href="#/ventas" >
+            <CardHeader tag="h5" className="text-center" >
+                <Row>
+                    <Col className="d-flex justify-content-center align-items-center">
+                        <h3>
+                            <strong>
+                                REGISTRO DE VENTAS
+                            </strong>
+                        </h3>
+                    </Col>
+                </Row>
+            </CardHeader>
+            <CardBody>
+                <Button block href="#/ventas" >
                     Ventas
                 </Button>
-            </ButtonGroup>
-
-            <ButtonGroup className="my-2" size="lg">
-                <Button href="#/compras">
+                <br />
+                <Button block href="#/compras">
                     Compras
                 </Button>
-            </ButtonGroup>
+            </CardBody>
+
         </Card>
     );
 }

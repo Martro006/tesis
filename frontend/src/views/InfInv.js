@@ -1,24 +1,29 @@
-import { Button, ButtonGroup, Card, CardTitle } from "reactstrap";
+import { Button, ButtonGroup, Card, CardBody, CardHeader, CardTitle, Col, Row } from "reactstrap";
 
 const InfInv = () => {
     return (
         <Card className="center">
-            <br />
-            <CardTitle tag="h5" className="text-center" >
-                NAVEGACION
-            </CardTitle>
-
-            <ButtonGroup className="my-2" size="lg">
-                <Button>
+            <CardHeader>
+                <Row>
+                    <Col className="d-flex justify-content-center align-items-center">
+                        <h3>
+                            <strong>
+                                INFORMES DE INVENTARIO
+                            </strong>
+                        </h3>
+                    </Col>
+                </Row>
+            </CardHeader>
+            <CardBody>
+                <Button block>
                     Stock Productos
                 </Button>
-            </ButtonGroup>
-
-            <ButtonGroup className="my-2" size="lg">
-                <Button>
+                <br />
+                <Button block>
                     Historial Productos
                 </Button>
-            </ButtonGroup>
+                <br />
+            </CardBody>
         </Card>
     );
 }

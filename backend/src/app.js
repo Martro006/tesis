@@ -10,7 +10,7 @@ import cliRoutes from "./routes/clientes.routes";
 import prodRoutes from "./routes/productos.routes";
 import cajRoutes from "./routes/caja.routes";
 import comprasRoutes from "./routes/compras.routes";
-import conceptoRoutes from "./routes/concepto.routes";
+import entradasRoutes from "./routes/entradas.routes";
 
 const app = express();
 
@@ -33,6 +33,6 @@ app.use("/api/clientes", cliRoutes);
 app.use("/api/prod", prodRoutes);
 app.use("/api/caja", cajRoutes);
 app.use("/api/compras", comprasRoutes);
-app.use("/api/concepto", conceptoRoutes);
+app.use("/api/entradas", entradasRoutes);
 
 export default app;

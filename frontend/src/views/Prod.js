@@ -18,7 +18,7 @@ const Prod = () => {
         desc: "",
         precio: "",
         cant: "",
-        fecha: ""
+        fecha: fechaHoy
     });
 
     async function obtenerDatos() {
@@ -39,7 +39,7 @@ const Prod = () => {
                 precio: data[index]["prod_precio"],
                 prodCod: data[index]["prod_codigo"],
                 desc: data[index]["prod_descrip"],
-                fecha: data[index]["prod_fecha"]
+                fecha: fechaHoy
             })
 
             toggleForm();
@@ -119,9 +119,6 @@ const Prod = () => {
                                 #
                             </th>
                             <th>
-                                PROVEEDOR
-                            </th>
-                            <th>
                                 CODIGO
                             </th>
                             <th>
@@ -134,7 +131,7 @@ const Prod = () => {
                                 CANTIDAD
                             </th>
                             <th>
-                                FECHA
+                                FECHA REGISTRO
                             </th>
                             <th>
                                 OPCIONES
@@ -147,9 +144,6 @@ const Prod = () => {
                                 <tr key={index}>
                                     <td>
                                         {index + 1}
-                                    </td>
-                                    <td>
-                                        {d.prod_proveedor}
                                     </td>
                                     <td>
                                         {d.prod_codigo}
