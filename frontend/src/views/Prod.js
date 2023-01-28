@@ -128,9 +128,6 @@ const Prod = () => {
                                 PRECIO
                             </th>
                             <th>
-                                CANTIDAD
-                            </th>
-                            <th>
                                 FECHA REGISTRO
                             </th>
                             <th>
@@ -153,9 +150,6 @@ const Prod = () => {
                                     </td>
                                     <td>
                                         {d.prod_precio}
-                                    </td>
-                                    <td>
-                                        {d.prod_cantidad}
                                     </td>
                                     <td>
                                         {d.prod_fecha}

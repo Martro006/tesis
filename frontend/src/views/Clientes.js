@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Button, Card, CardBody, CardHeader, Row, Col, Table, Modal, Input, Label } from 'reactstrap';
 import { methods } from '../server/Clientes';
 import ModalClientes from './modales/ModalClientes';
+import { ReactSession } from 'react-client-session';
 
 const Clientes = () => {
     const [data, setData] = useState([]); //primera seccion de un hook
@@ -67,6 +68,9 @@ const Clientes = () => {
             })
 
             toggleForm();
+        } else if (option === 3) {
+            ReactSession.set("cliente", data[index]);
+            window.location.href = '#/ordenCli';
         }
     }
 
@@ -202,7 +206,7 @@ const Clientes = () => {
                                         <td>
                                             <Button onClick={() => seleccionarOpcion(index, 2)}>ACTUALIZAR</Button>
                                             <Button onClick={() => eliminarDatos(d.cli_id)}>ELIMINAR</Button>
-                                            <Button>Facturar </Button>
+                                            <Button onClick={() => seleccionarOpcion(index, 3)} >ORDEN</Button>
                                         </td>
                                     </tr>
                                 ))

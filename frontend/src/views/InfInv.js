@@ -8,21 +8,14 @@ const InfInv = () => {
                     <Col className="d-flex justify-content-center align-items-center">
                         <h3>
                             <strong>
-                                INFORMES DE INVENTARIO
+                                Stock Productos
                             </strong>
                         </h3>
                     </Col>
                 </Row>
             </CardHeader>
             <CardBody>
-                <Button block>
-                    Stock Productos
-                </Button>
-                <br />
-                <Button block>
-                    Historial Productos
-                </Button>
-                <br />
+
             </CardBody>
         </Card>
     );
