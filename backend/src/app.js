@@ -11,6 +11,7 @@ import prodRoutes from "./routes/productos.routes";
 import cajRoutes from "./routes/caja.routes";
 import comprasRoutes from "./routes/compras.routes";
 import entradasRoutes from "./routes/entradas.routes";
+import ordenRoutes from "./routes/orden.routes";
 
 const app = express();
 
@@ -34,5 +35,6 @@ app.use("/api/prod", prodRoutes);
 app.use("/api/caja", cajRoutes);
 app.use("/api/compras", comprasRoutes);
 app.use("/api/entradas", entradasRoutes);
+app.use("/api/orden", ordenRoutes);
 
 export default app;

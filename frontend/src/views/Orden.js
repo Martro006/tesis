@@ -1,9 +1,7 @@
 import { Button, ButtonGroup, Card, CardBody, CardHeader, CardTitle, Col, Input, Label, Row, Table } from "reactstrap";
 import { useEffect, useState } from 'react';
 import { mothProd } from '../server/Prod';
-import { methods } from '../server/Compras';
-import ModalCompras from "./modales/ModalCompras";
-import { array, element } from "prop-types";
+import { methods } from '../server/Orden';
 import { ReactSession } from 'react-client-session';
 
 const OrdenCli = () => {
@@ -12,10 +10,8 @@ const OrdenCli = () => {
 
     const cliente = ReactSession.get("cliente");
 
-    console.log(cliente);
-    let subt = 0;
-    let iva = 0;
-    let total = 0;
+    //   console.log(cliente);
+
     const fechaHoy = new Date().toLocaleDateString('es-Es');
 
     const [entrada, setEntrada] = useState({
@@ -31,7 +27,6 @@ const OrdenCli = () => {
     });
 
     async function obtenerDatos() {
-
         document.getElementById("nomCli").value = cliente.cli_nombres;
         document.getElementById("numCed").value = cliente.cli_dni;
         const res = await mothProd.getProd();
@@ -41,72 +36,95 @@ const OrdenCli = () => {
     }
 
     async function guardarDatos() {
-        tabla.forEach(async (element, key) => {
-            await methods.insertCompras({
-                "prod_id": element.prod_id,
-                "entr_prov": document.getElementById("provee").value,
-                "entr_numFact": document.getElementById("numF").value,
-                "entr_cant": parseFloat(document.getElementById(key + "cant").value),
-                "entr_subtotal": parseFloat(document.getElementById("subt").textContent),
-                "entr_iva": parseFloat(document.getElementById("iva").textContent),
-                "entr_total": parseFloat(document.getElementById("total").textContent),
-                "entr_precUnit": element.prod_precio,
-                "entr_fecha": fechaHoy
-            });
 
-        });
-        window.location.href = '#/compras';
-    }
+        let tipo = "";
 
-    async function buscarDatos() {
-        const res = await mothProd.buscarDatos(entrada.dato);
-        if (res.status === 200) {
-            setTabla([...tabla, res.data[0]]);
+
+        if (document.getElementById("antiref").checked === true) {
+            tipo += "ANTIRREFLEJO";
         }
-    }
+        if (document.getElementById("filtroAz").checked === true) {
+            tipo += " FILTRO AZUL";
+        }
+        if (document.getElementById("transition").checked === true) {
+            tipo += " TRANSITION";
+        }
 
-    let cant = 0;
-    function cambiarValor(index) {
-        cant = document.getElementById(index + "cant").value;
-        let precio = document.getElementById(index + "p").textContent;
-        let precioT = cant * precio;
-        document.getElementById(index + "pt").textContent = precioT;
-        //aqui poner el subt el iva y el total de todos los productos
+        let clase = "";
+
+        if (document.getElementById("monofoc").checked === true) {
+            clase += "MONOFOCALES";
+        }
+        if (document.getElementById("bifoc").checked === true) {
+            clase += " BIFOCALES";
+        }
+        if (document.getElementById("progres").checked === true) {
+            clase += " PROGRESIVOS";
+        }
+
+        const res = await methods.insertOrden({
+            "cli_dni": document.getElementById("numCed").value,
+            "ord_fecha": fechaHoy,
+            "ord_odEsfera": document.getElementById("odEsfera").value,
+            "ord_oiEsfera": document.getElementById("oiEsfera").value,
+            "ord_odCilindro": document.getElementById("odCilindro").value,
+            "ord_oiCilindro": document.getElementById("oiClilindro").value,
+            "ord_odEje": document.getElementById("odEje").value,
+            "ord_oiEje": document.getElementById("oiEje").value,
+            "ord_odDnp": document.getElementById("odDnp").value,
+            "ord_oiDnp": document.getElementById("oiDnp").value,
+            "ord_adicion": document.getElementById("adicion").value,
+            "ord_altura": document.getElementById("altura").value,
+            "ord_armazon": document.getElementById("armazon").value,
+            "ord_material": document.getElementById("selectMaterial").value,
+            "ord_tipo": tipo,
+            "ord_clase": clase,
+            "ord_valorTotal": document.getElementById("valTotal").value,
+            "ord_abono": document.getElementById("abono").value,
+            "ord_saldo": document.getElementById("saldo").value,
+            "ord_observ": document.getElementById("observ").value,
+            "ord_formaPago": document.getElementById("formaPago").value,
+            "ord_banc": document.getElementById("entBancaria").value,
+            "ord_numCheqTrans": document.getElementById("numCheqTrans").value,
+            "ord_codAsesor": document.getElementById("codAsesor").value
+        });
+        console.log(res.status);
+        console.log(res.status);
+
+        //console.log(document.getElementById("numCed").value);
+        //console.log(fechaHoy);
+        //console.log(document.getElementById("odEsfera").value);
+        //console.log(document.getElementById("oiEsfera").value);
+        //console.log(document.getElementById("odCilindro").value);
+        //console.log(document.getElementById("oiClilindro").value);
+        //console.log(document.getElementById("odEje").value);
+        //console.log(document.getElementById("oiEje").value);
+        //console.log(document.getElementById("odDnp").value);
+        //console.log(document.getElementById("oiDnp").value);
+        //console.log(document.getElementById("adicion").value);
+        //console.log(document.getElementById("altura").value);
+        //console.log(document.getElementById("armazon").value);
+        //console.log(document.getElementById("selectMaterial").value);
+        //console.log(tipo);
+        //console.log(clase);
+        //console.log(document.getElementById("valTotal").value);
+        //console.log(document.getElementById("abono").value);
+        //console.log(document.getElementById("saldo").value);
+        //console.log(document.getElementById("observ").value);
+        //console.log(document.getElementById("formaPago").value);
+        //console.log(document.getElementById("entBancaria").value);
+        //console.log(document.getElementById("numCheqTrans").value);
+        //console.log(document.getElementById("codAsesor").value);
+
     }
 
     function calcular() {
-        subt = 0;
-        tabla.forEach((element, key) => {
-            subt += (element.prod_precio * document.getElementById(key + "cant").value)
-            console.log(element);
-            console.log(document.getElementById(key + "cant").value);
-            console.log(subt);
-        });
+        let saldo = 0;
+        let aux = document.getElementById("valTotal").value;
+        let aux2 = document.getElementById("abono").value;
 
-        document.getElementById("subt").textContent = "" + subt;
-
-        iva = subt * 0.12;
-        document.getElementById("iva").textContent = "" + iva.toFixed(2);
-
-        total = iva + subt;
-        document.getElementById("total").textContent = "" + total;
-    }
-
-    function quitar(index) {
-        subt = 0;
-        document.getElementById("subt").textContent = "" + subt;
-        iva = 0;
-        document.getElementById("iva").textContent = "" + iva;
-        total = 0;
-        document.getElementById("total").textContent = "" + total;
-
-        let tblN = [];
-        tabla.forEach((element, key) => {
-            if (key !== index) {
-                tblN.push(element);
-            }
-        });
-        setTabla(tblN);
+        saldo = Number(aux) - Number(aux2);
+        document.getElementById("saldo").value = saldo;
     }
 
     const handleInputChange = (event) => {
@@ -125,13 +143,20 @@ const OrdenCli = () => {
             <CardHeader className="d-flex justify-content-center align-items-center">
                 <h4>
                     <strong>
-                        RECIBO
+                        ORDEN DE TRABAJO
                     </strong>
                 </h4>
             </CardHeader>
             <CardBody style={{ backgroundColor: '#D6EAF8' }}>
                 <Row >
-
+                    <Row className="mb-4">
+                        <Col>
+                            Fecha:
+                        </Col>
+                        <Col>
+                            <Input id="fecha" value={fechaHoy} readOnly />
+                        </Col>
+                    </Row>
                     <Row className="mb-4">
                         <Col>
                             <h5>
@@ -188,24 +213,16 @@ const OrdenCli = () => {
                                             O.D:
                                         </td>
                                         <td>
-                                            <Input>
-
-                                            </Input>
+                                            <Input id="odEsfera" />
                                         </td>
                                         <td>
-                                            <Input>
-
-                                            </Input>
+                                            <Input id="odCilindro" />
                                         </td>
                                         <td>
-                                            <Input>
-
-                                            </Input>
+                                            <Input id="odEje" />
                                         </td>
                                         <td>
-                                            <Input>
-
-                                            </Input>
+                                            <Input id="odDnp" />
                                         </td>
                                     </tr>
                                     <tr>
@@ -213,24 +230,20 @@ const OrdenCli = () => {
                                             O.I:
                                         </td>
                                         <td>
-                                            <Input>
+                                            <Input id="oiEsfera" />
 
-                                            </Input>
                                         </td>
                                         <td>
-                                            <Input>
+                                            <Input id="oiClilindro" />
 
-                                            </Input>
                                         </td>
                                         <td>
-                                            <Input>
+                                            <Input id="oiEje" />
 
-                                            </Input>
                                         </td>
                                         <td>
-                                            <Input>
+                                            <Input id="oiDnp" />
 
-                                            </Input>
                                         </td>
                                     </tr>
                                     <tr>
@@ -240,17 +253,14 @@ const OrdenCli = () => {
                                             Adicion
                                         </td>
                                         <td>
-                                            <Input>
+                                            <Input id="adicion" />
 
-                                            </Input>
                                         </td>
                                         <td>
                                             Altura
                                         </td>
                                         <td>
-                                            <Input>
-
-                                            </Input>
+                                            <Input id="altura" />
                                         </td>
                                     </tr>
                                 </tbody>
@@ -264,16 +274,25 @@ const OrdenCli = () => {
                                     ESCOGER ARMAZON
                                 </strong>
                             </h5>
-                            <Input type="select"></Input>
+                            <Input type="select" id="armazon" name="dato" onChange={handleInputChange} >
+                                <option value={""}>
+                                    Elegir
+                                </option>
+                                {
+                                    data.map((d, index) => (
+                                        <option key={index} value={d.prod_codigo}>
+                                            {d.prod_codigo}
+                                        </option>
+                                    ))}
+                            </Input>
                         </Col>
                         <Col>
                             <h5>
                                 <strong>
                                     ESCOGER MATERIAL
                                 </strong>
-
                             </h5>
-                            <Input type="select">
+                            <Input id="selectMaterial" type="select">
                                 <option>
                                     Cristal
                                 </option>
@@ -296,29 +315,66 @@ const OrdenCli = () => {
 
                         </Col>
                     </Row>
-                    <Row>
+                    <Row className="mb-4">
                         <Col>
-                            <Input type="checkbox" />
-                            <Label check>
+                            <Input id="antiref" type="checkbox" />
+                            <Label id="antireflejo" check>
                                 <h6>
-                                    antireflejo
+                                    &nbsp; &nbsp; &nbsp; &nbsp; Antireflejo
                                 </h6>
                             </Label>
 
                         </Col>
                         <Col>
-                            <Input type="checkbox" />
+                            <Input id="transition" type="checkbox" />
                             <Label check>
                                 <h6>
-                                    transition
+                                    &nbsp; &nbsp; &nbsp; &nbsp;  Transition
                                 </h6>
                             </Label>
                         </Col>
                         <Col>
-                            <Input type="checkbox" />
+                            <Input id="filtroAz" type="checkbox" />
                             <Label check>
                                 <h6>
-                                    Filtro azul
+                                    &nbsp; &nbsp; &nbsp; &nbsp; Filtro azul
+                                </h6>
+                            </Label>
+                        </Col>
+                    </Row>
+                    <Row className="mb-4">
+                        <Col>
+                            <h5>
+                                <strong>
+                                    ESCOGER CLASE
+                                </strong>
+                            </h5>
+
+                        </Col>
+                    </Row>
+                    <Row className="mb-4">
+                        <Col>
+                            <Input id="monofoc" type="checkbox" />
+                            <Label check>
+                                <h6>
+                                    &nbsp;  &nbsp; &nbsp; &nbsp; Monofocales
+                                </h6>
+                            </Label>
+
+                        </Col>
+                        <Col>
+                            <Input id="bifoc" type="checkbox" />
+                            <Label check>
+                                <h6>
+                                    &nbsp; &nbsp; &nbsp; &nbsp; Bifocales
+                                </h6>
+                            </Label>
+                        </Col>
+                        <Col>
+                            <Input id="progres" type="checkbox" />
+                            <Label check>
+                                <h6>
+                                    &nbsp; &nbsp; &nbsp; &nbsp; Progresivas
                                 </h6>
                             </Label>
                         </Col>
@@ -330,31 +386,31 @@ const OrdenCli = () => {
                             VALOR TOTAL
                         </Col>
                         <Col>
-                            <Input></Input>
+                            <Input id="valTotal" type="number"></Input>
                         </Col>
                         <Col>
                             ABONO
                         </Col>
                         <Col>
-                            <Input></Input>
+                            <Input id="abono" type="number"></Input>
                         </Col>
                     </Row>
                     <Row className="mb-4">
                         <Col>
                             SALDO
-                            <Input></Input>
+                            <Input id="saldo" readOnly />
                         </Col>
                         <Col>
                             <br />
                             <div>
-                                <Button>CALCULAR</Button>
+                                <Button onClick={() => calcular()}>CALCULAR</Button>
                             </div>
                         </Col>
                     </Row>
                     <Row className="mb-4">
                         <Col>
                             Observaciones:
-                            <Input ></Input>
+                            <Input id="observ" autoComplete="off" />
                         </Col>
                     </Row>
                     <Row className="mb-4">
@@ -362,9 +418,45 @@ const OrdenCli = () => {
                             Forma de Pago
                         </Col>
                         <Col>
-                            <Input type="select">
-
+                            <Input id="formaPago" type="select">
+                                <option value={"Efectivo"}>
+                                    Efectivo
+                                </option>
+                                <option value={"Tarjeta"}>
+                                    Tarjeta
+                                </option>
+                                <option value={"Transferencia"}>
+                                    Transferencia
+                                </option>
+                                <option value={"Cheque"}>
+                                    Cheque
+                                </option>
                             </Input>
+                        </Col>
+                    </Row>
+                    <Row className="mb-4">
+                        <Col>
+                            <h5>
+                                <strong>
+                                    Detalles de pago (No Efectivo / Tarjeta)
+                                </strong>
+                            </h5>
+                        </Col>
+                    </Row>
+                    <Row className="mb-4">
+                        <Col>
+                            Entidad Bancaria:
+                        </Col>
+                        <Col>
+                            <Input id="entBancaria" type="text" />
+                        </Col>
+                    </Row>
+                    <Row className="mb-5">
+                        <Col>
+                            Numero de cheque o transferencia:
+                        </Col>
+                        <Col>
+                            <Input id="numCheqTrans" type="text" />
                         </Col>
                     </Row>
                     <br />
@@ -374,16 +466,16 @@ const OrdenCli = () => {
                         </Col>
                         <br />
                         <Col>
-                            <Input>
-
-                            </Input>
+                            <Input type="password" autoComplete="off" id="codAsesor" />
                         </Col>
                     </Row>
-                    <Button color="success" size="lg">GUARDAR</Button>
+                    <Button color="success" onClick={() => guardarDatos()} size="lg">GUARDAR</Button>
+                    <br />
+                    <Button color="warning" size="lg">IMPRIMIR</Button>
 
                 </Row>
             </CardBody>
-        </Card >
+        </Card>
     );
 }
 
