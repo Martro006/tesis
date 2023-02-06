@@ -13,7 +13,7 @@ const Transacciones = () => {
                     <Col className="d-flex justify-content-center align-items-center">
                         <h3>
                             <strong>
-                                REGISTRO DE VENTAS
+                                REGISTRO DE TRANSACCIONES
                             </strong>
                         </h3>
                     </Col>

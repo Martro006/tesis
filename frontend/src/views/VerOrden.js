@@ -4,119 +4,205 @@ import { mothProd } from '../server/Prod';
 import { methods } from '../server/Orden';
 import { ReactSession } from 'react-client-session';
 
-const OrdenCli = () => {
+const VerOrden = () => {
     const [data, setData] = useState([]);
     const [disable, setDisable] = useState(false);
     const [disableOn, setDisableOn] = useState(true);
 
-    const cliente = ReactSession.get("cliente");
-    
-    //ReactSession.set("antiref", data);
-
+    const datosOrd = ReactSession.get("dataOrden");
+    console.log(datosOrd);
     const fechaHoy = new Date().toLocaleDateString('es-Es');
 
     const [entrada, setEntrada] = useState({
-        opcion: 0,
-        id: -1,
-        prodProv: "",
-        prodCod: "",
-        desc: "",
-        precio: "",
-        cant: "",
-        fecha: "",
-        dato: ""
+        ord_id: -1,
+        numCed: "",
+        nomCli: "",
+        odEsfera: "",
+        odCilindro: "",
+        odEje: "",
+        odDnp: "",
+        oiEsfera: "",
+        oiClilindro: "",
+        oiEje: "",
+        oiDnp: "",
+        adicion: "",
+        altura: "",
+        valTotal: "",
+        abono: "",
+        saldo: "",
+        entBancaria: "",
+        numCheqTrans: "",
+        observ: "",
+        ord_fecha: fechaHoy,
     });
 
+
     async function obtenerDatos() {
-        document.getElementById("nomCli").value = cliente.cli_nombres;
-        document.getElementById("numCed").value = cliente.cli_dni;
         const res = await mothProd.getProd();
         if (res.status === 200) {
             setData(res.data);
         }
-    }
+        setEntrada({
+            ...entrada,
+            ord_id: datosOrd["ord_id"],
+            numCed: datosOrd["cli_dni"],
+            nomCli: datosOrd["cli_nombres"],
+            odEsfera: datosOrd["ord_odEsfera"],
+            odCilindro: datosOrd["ord_odCilindro"],
+            odEje: datosOrd["ord_odEje"],
+            odDnp: datosOrd["ord_odDnp"],
+            oiEsfera: datosOrd["ord_oiEsfera"],
+            oiClilindro: datosOrd["ord_oiCilindro"],
+            oiEje: datosOrd["ord_oiEje"],
+            oiDnp: datosOrd["ord_oiDnp"],
+            adicion: datosOrd["ord_adicion"],
+            altura: datosOrd["ord_altura"],
+            valTotal: datosOrd["ord_valorTotal"],
+            abono: datosOrd["ord_abono"],
+            saldo: datosOrd["ord_saldo"],
+            entBancaria: datosOrd["ord_banc"],
+            numCheqTrans: datosOrd["ord_numCheqTrans"],
+            observ: datosOrd["ord_observ"]
+        })
 
-    async function guardarDatos() {
+        if (datosOrd["ord_tipo"].includes("TRANSITION")) {
 
-        let tipo = "";
-
-
-        if (document.getElementById("antiref").checked === true) {
-            tipo += "ANTIRREFLEJO";
+            document.getElementById("transition").checked = true;
         }
-        if (document.getElementById("filtroAz").checked === true) {
-            tipo += " FILTRO AZUL";
+        if (datosOrd["ord_tipo"].includes("ANTIRREFLEJO")) {
+
+            document.getElementById("antiref").checked = true;
         }
-        if (document.getElementById("transition").checked === true) {
-            tipo += " TRANSITION";
+        if (datosOrd["ord_tipo"].includes("FILTRO AZUL")) {
+
+            document.getElementById("filtroAz").checked = true;
         }
 
-        let clase = "";
+        if (datosOrd["ord_clase"].includes("MONOFOCALES")) {
 
-        if (document.getElementById("monofoc").checked === true) {
-            clase += "MONOFOCALES";
+            document.getElementById("monofoc").checked = true;
         }
-        if (document.getElementById("bifoc").checked === true) {
-            clase += " BIFOCALES";
-        }
-        if (document.getElementById("progres").checked === true) {
-            clase += " PROGRESIVOS";
-        }
+        if (datosOrd["ord_clase"].includes("BIFOCALES")) {
 
-        const res = await methods.insertOrden({
-            "cli_dni": document.getElementById("numCed").value,
-            "ord_fecha": fechaHoy,
-            "ord_odEsfera": document.getElementById("odEsfera").value,
-            "ord_oiEsfera": document.getElementById("oiEsfera").value,
-            "ord_odCilindro": document.getElementById("odCilindro").value,
-            "ord_oiCilindro": document.getElementById("oiClilindro").value,
-            "ord_odEje": document.getElementById("odEje").value,
-            "ord_oiEje": document.getElementById("oiEje").value,
-            "ord_odDnp": document.getElementById("odDnp").value,
-            "ord_oiDnp": document.getElementById("oiDnp").value,
-            "ord_adicion": document.getElementById("adicion").value,
-            "ord_altura": document.getElementById("altura").value,
-            "ord_armazon": document.getElementById("armazon").value,
-            "ord_material": document.getElementById("selectMaterial").value,
-            "ord_tipo": tipo,
-            "ord_clase": clase,
-            "ord_valorTotal": document.getElementById("valTotal").value,
-            "ord_abono": document.getElementById("abono").value,
-            "ord_saldo": document.getElementById("saldo").value,
-            "ord_observ": document.getElementById("observ").value,
-            "ord_formaPago": document.getElementById("formaPago").value,
-            "ord_banc": document.getElementById("entBancaria").value,
-            "ord_numCheqTrans": document.getElementById("numCheqTrans").value,
-            "ord_codAsesor": document.getElementById("codAsesor").value
-        });
-        console.log(res.status);
+            document.getElementById("bifoc").checked = true;
+        }
+        if (datosOrd["ord_clase"].includes("PROGRESIVOS")) {
 
-        if (res.status === 200) {
-            alert("ORDEN AÑADIDA CON EXITO");
-            setDisable(true);
-            setDisableOn(false);
-        } else {
-            alert("STOCK DE PRODUCTOS INSUFICIENTE");
+            document.getElementById("progres").checked = true;
         }
 
     }
 
     function imprSelec() {
         let ficha = document.getElementById("imprimir");
-        var ventimp = window.open(' ', 'popimpr');
+        var ventimp = window.open();
         ventimp.document.write(ficha.innerHTML);
         ventimp.document.close();
         ventimp.print();
         ventimp.close();
     }
 
+    let saldo = 0;
+
     function calcular() {
-        let saldo = 0;
+        saldo = 0;
         let aux = document.getElementById("valTotal").value;
         let aux2 = document.getElementById("abono").value;
 
         saldo = Number(aux) - Number(aux2);
         document.getElementById("saldo").value = saldo;
+        entrada.saldo = saldo;
+    }
+
+    async function act() {
+        if (document.getElementById("codAsesor").value !== "") {
+            let tipo = "";
+
+            if (document.getElementById("antiref").checked === true) {
+                tipo += "ANTIRREFLEJO";
+            }
+            if (document.getElementById("filtroAz").checked === true) {
+                tipo += " FILTRO AZUL";
+            }
+            if (document.getElementById("transition").checked === true) {
+                tipo += " TRANSITION";
+            }
+
+            let clase = "";
+
+            if (document.getElementById("monofoc").checked === true) {
+                clase += "MONOFOCALES";
+            }
+            if (document.getElementById("bifoc").checked === true) {
+                clase += " BIFOCALES";
+            }
+            if (document.getElementById("progres").checked === true) {
+                clase += " PROGRESIVOS";
+            }
+
+            const res = await methods.updateOrden({
+                "ord_id": entrada.ord_id,
+                "cli_dni": entrada.numCed,
+                "ord_fecha": entrada.ord_fecha,
+                "ord_odEsfera": entrada.odEsfera,
+                "ord_oiEsfera": entrada.oiEsfera,
+                "ord_odCilindro": entrada.odCilindro,
+                "ord_oiCilindro": entrada.oiClilindro,
+                "ord_odEje": entrada.odEje,
+                "ord_oiEje": entrada.oiEje,
+                "ord_odDnp": entrada.odDnp,
+                "ord_oiDnp": entrada.oiDnp,
+                "ord_adicion": entrada.adicion,
+                "ord_altura": entrada.altura,
+                "ord_armazon": datosOrd.ord_armazon,
+                "ord_material": document.getElementById("selectMaterial").value,
+                "ord_tipo": tipo,
+                "ord_clase": clase,
+                "ord_valorTotal": entrada.valTotal,
+                "ord_abono": entrada.abono,
+                "ord_saldo": entrada.saldo,
+                "ord_observ": entrada.observ,
+                "ord_formaPago": document.getElementById("formaPago").value,
+                "ord_banc": entrada.entBancaria,
+                "ord_numCheqTrans": entrada.numCheqTrans,
+                "ord_codAsesor": document.getElementById("codAsesor").value
+            });
+
+            if (res.status === 200) {
+                alert("Actualizacion exitosa");
+                setDisable(true);
+                setDisableOn(false);
+            }
+
+        } else {
+            alert("ingresar codigo de asesor");
+        }
+        // console.log(entrada.ord_id);
+        // console.log(entrada.numCed);
+        // console.log(entrada.ord_fecha);
+        // console.log(entrada.odEsfera);
+        // console.log(entrada.oiEsfera);
+        // console.log(entrada.odCilindro);
+        // console.log(entrada.oiClilindro);
+        // console.log(entrada.odEje);
+        // console.log(entrada.oiEje);
+        // console.log(entrada.odDnp);
+        // console.log(entrada.oiDnp);
+        // console.log(entrada.adicion);
+        // console.log(entrada.altura);
+        // console.log(datosOrd.ord_armazon);
+        // console.log(document.getElementById("selectMaterial").value);
+        // console.log(tipo);
+        // console.log(clase);
+        // console.log(entrada.valTotal);
+        // console.log(entrada.abono);
+        // console.log(entrada.saldo);
+        // console.log(entrada.observ);
+        // console.log(document.getElementById("formaPago").value);
+        // console.log(entrada.entBancaria);
+        // console.log(entrada.numCheqTrans);
+        //console.log(document.getElementById("codAsesor").value);
+        //console.log(res.status);
     }
 
     const handleInputChange = (event) => {
@@ -163,7 +249,7 @@ const OrdenCli = () => {
                             Numero de cedula:
                         </Col>
                         <Col>
-                            <Input readOnly id="numCed" type="text" />
+                            <Input readOnly id="numCed" type="text" name="numCed" onChange={handleInputChange} value={entrada.numCed} />
                         </Col>
                     </Row>
                     <br />
@@ -172,7 +258,7 @@ const OrdenCli = () => {
                             Nombre del cliente:
                         </Col>
                         <Col>
-                            <Input readOnly id="nomCli" type="text" />
+                            <Input readOnly id="nomCli" type="text" name="nomCli" onChange={handleInputChange} value={entrada.nomCli} />
                         </Col>
                     </Row>
                 </Row>
@@ -205,16 +291,16 @@ const OrdenCli = () => {
                                             O.D:
                                         </td>
                                         <td>
-                                            <Input id="odEsfera" />
+                                            <Input id="odEsfera" name="odEsfera" onChange={handleInputChange} value={entrada.odEsfera} />
                                         </td>
                                         <td>
-                                            <Input id="odCilindro" />
+                                            <Input id="odCilindro" name="odCilindro" onChange={handleInputChange} value={entrada.odCilindro} />
                                         </td>
                                         <td>
-                                            <Input id="odEje" />
+                                            <Input id="odEje" name="odEje" onChange={handleInputChange} value={entrada.odEje} />
                                         </td>
                                         <td>
-                                            <Input id="odDnp" />
+                                            <Input id="odDnp" name="odDnp" onChange={handleInputChange} value={entrada.odDnp} />
                                         </td>
                                     </tr>
                                     <tr>
@@ -222,19 +308,19 @@ const OrdenCli = () => {
                                             O.I:
                                         </td>
                                         <td>
-                                            <Input id="oiEsfera" />
+                                            <Input id="oiEsfera" name="oiEsfera" onChange={handleInputChange} value={entrada.oiEsfera} />
 
                                         </td>
                                         <td>
-                                            <Input id="oiClilindro" />
+                                            <Input id="oiClilindro" name="oiClilindro" onChange={handleInputChange} value={entrada.oiClilindro} />
 
                                         </td>
                                         <td>
-                                            <Input id="oiEje" />
+                                            <Input id="oiEje" name="oiEje" onChange={handleInputChange} value={entrada.oiEje} />
 
                                         </td>
                                         <td>
-                                            <Input id="oiDnp" />
+                                            <Input id="oiDnp" name="oiDnp" onChange={handleInputChange} value={entrada.oiDnp} />
 
                                         </td>
                                     </tr>
@@ -245,14 +331,14 @@ const OrdenCli = () => {
                                             Adicion
                                         </td>
                                         <td>
-                                            <Input id="adicion" />
+                                            <Input id="adicion" name="adicion" onChange={handleInputChange} value={entrada.adicion} />
 
                                         </td>
                                         <td>
                                             Altura
                                         </td>
                                         <td>
-                                            <Input id="altura" />
+                                            <Input id="altura" name="altura" onChange={handleInputChange} value={entrada.altura} />
                                         </td>
                                     </tr>
                                 </tbody>
@@ -267,15 +353,9 @@ const OrdenCli = () => {
                                 </strong>
                             </h5>
                             <Input type="select" id="armazon" name="dato" onChange={handleInputChange} >
-                                <option value={""}>
-                                    Elegir
+                                <option value={datosOrd.ord_armazon}>
+                                    {datosOrd.ord_armazon}
                                 </option>
-                                {
-                                    data.map((d, index) => (
-                                        <option key={index} value={d.prod_codigo}>
-                                            {d.prod_codigo}
-                                        </option>
-                                    ))}
                             </Input>
                         </Col>
                         <Col>
@@ -284,7 +364,10 @@ const OrdenCli = () => {
                                     ESCOGER MATERIAL
                                 </strong>
                             </h5>
-                            <Input id="selectMaterial" type="select">
+                            <Input id="selectMaterial" type="select" onChange={handleInputChange} >
+                                <option value={datosOrd.ord_material}>
+                                    {datosOrd.ord_material}
+                                </option>
                                 <option>
                                     Cristal
                                 </option>
@@ -309,7 +392,7 @@ const OrdenCli = () => {
                     </Row>
                     <Row className="mb-4">
                         <Col>
-                            <Input id="antiref" type="checkbox" />
+                            <Input id="antiref" type="checkbox" onChange={handleInputChange} />
                             <Label id="antireflejo" check>
                                 <h6>
                                     &nbsp; &nbsp; &nbsp; &nbsp; Antireflejo
@@ -318,7 +401,7 @@ const OrdenCli = () => {
 
                         </Col>
                         <Col>
-                            <Input id="transition" type="checkbox" />
+                            <Input id="transition" type="checkbox" onChange={handleInputChange} />
                             <Label check>
                                 <h6>
                                     &nbsp; &nbsp; &nbsp; &nbsp;  Transition
@@ -326,7 +409,7 @@ const OrdenCli = () => {
                             </Label>
                         </Col>
                         <Col>
-                            <Input id="filtroAz" type="checkbox" />
+                            <Input id="filtroAz" type="checkbox" onChange={handleInputChange} />
                             <Label check>
                                 <h6>
                                     &nbsp; &nbsp; &nbsp; &nbsp; Filtro azul
@@ -346,7 +429,7 @@ const OrdenCli = () => {
                     </Row>
                     <Row className="mb-4">
                         <Col>
-                            <Input id="monofoc" type="checkbox" />
+                            <Input id="monofoc" type="checkbox" onChange={handleInputChange} />
                             <Label check>
                                 <h6>
                                     &nbsp;  &nbsp; &nbsp; &nbsp; Monofocales
@@ -355,7 +438,7 @@ const OrdenCli = () => {
 
                         </Col>
                         <Col>
-                            <Input id="bifoc" type="checkbox" />
+                            <Input id="bifoc" type="checkbox" onChange={handleInputChange} />
                             <Label check>
                                 <h6>
                                     &nbsp; &nbsp; &nbsp; &nbsp; Bifocales
@@ -363,7 +446,7 @@ const OrdenCli = () => {
                             </Label>
                         </Col>
                         <Col>
-                            <Input id="progres" type="checkbox" />
+                            <Input id="progres" type="checkbox" onChange={handleInputChange} />
                             <Label check>
                                 <h6>
                                     &nbsp; &nbsp; &nbsp; &nbsp; Progresivas
@@ -378,19 +461,19 @@ const OrdenCli = () => {
                             VALOR TOTAL
                         </Col>
                         <Col>
-                            <Input id="valTotal" type="number"></Input>
+                            <Input id="valTotal" name="valTotal" type="number" onChange={handleInputChange} value={entrada.valTotal} />
                         </Col>
                         <Col>
                             ABONO
                         </Col>
                         <Col>
-                            <Input id="abono" type="number"></Input>
+                            <Input id="abono" name="abono" type="number" onChange={handleInputChange} value={entrada.abono} />
                         </Col>
                     </Row>
                     <Row className="mb-4">
                         <Col>
                             SALDO
-                            <Input id="saldo" readOnly />
+                            <Input id="saldo" name="saldo" readOnly value={entrada.saldo} onChange={handleInputChange} />
                         </Col>
                         <Col>
                             <br />
@@ -402,7 +485,7 @@ const OrdenCli = () => {
                     <Row className="mb-4">
                         <Col>
                             Observaciones:
-                            <Input id="observ" autoComplete="off" />
+                            <Input id="observ" name="observ" autoComplete="off" value={entrada.observ} onChange={handleInputChange} />
                         </Col>
                     </Row>
                     <Row className="mb-4">
@@ -410,7 +493,10 @@ const OrdenCli = () => {
                             Forma de Pago
                         </Col>
                         <Col>
-                            <Input id="formaPago" type="select">
+                            <Input id="formaPago" type="select" onChange={handleInputChange} >
+                                <option value={datosOrd.ord_formaPago}>
+                                    {datosOrd.ord_formaPago}
+                                </option>
                                 <option value={"Efectivo"}>
                                     Efectivo
                                 </option>
@@ -440,7 +526,7 @@ const OrdenCli = () => {
                             Entidad Bancaria:
                         </Col>
                         <Col>
-                            <Input id="entBancaria" type="text" />
+                            <Input id="entBancaria" name="entBancaria" type="text" value={entrada.entBancaria} onChange={handleInputChange} />
                         </Col>
                     </Row>
                     <Row className="mb-5">
@@ -448,7 +534,7 @@ const OrdenCli = () => {
                             Numero de cheque o transferencia:
                         </Col>
                         <Col>
-                            <Input id="numCheqTrans" type="text" />
+                            <Input id="numCheqTrans" name="numCheqTrans" type="text" value={entrada.numCheqTrans} onChange={handleInputChange} />
                         </Col>
                     </Row>
                     <br />
@@ -458,16 +544,16 @@ const OrdenCli = () => {
                         </Col>
                         <br />
                         <Col>
-                            <Input type="password" autoComplete="off" id="codAsesor" />
+                            <Input type="password" autoComplete="off" id="codAsesor" required onChange={handleInputChange} />
                         </Col>
                     </Row>
-                    <Button color="success" disabled={disable} onClick={() => guardarDatos()} size="lg">GUARDAR</Button>
+                    <Button color="success" disabled={disable} onClick={() => act()} size="lg">GUARDAR</Button>
                     <br />
-                    <Button color="warning" disabled={disableOn} onClick={() => imprSelec()} size="lg">IMPRIMIR</Button>
+                    <Button color="warning" disabled={disable} onClick={() => imprSelec()} size="lg">IMPRIMIR</Button>
                 </Row>
             </CardBody>
         </Card>
     );
 }
 
-export default OrdenCli;
+export default VerOrden;

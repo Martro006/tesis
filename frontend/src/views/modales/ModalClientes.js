@@ -60,7 +60,8 @@ const ModalClientes = (props) => {
                                 id="correoI"
                                 name="correo"
                                 placeholder="Escriba el correo electronico"
-                                type="text"
+                                
+                                type="email"
                                 //step="0.01"
                                 onChange={props.handleInputChange}
                                 value={props.entrada.correo}
@@ -80,7 +81,7 @@ const ModalClientes = (props) => {
                                 id="direccionI"
                                 name="direccion"
                                 placeholder="Escriba la direccion del cliente"
-                                type="text"
+                                required
                                 //step="0.01"
                                 onChange={props.handleInputChange}
                                 value={props.entrada.direccion}

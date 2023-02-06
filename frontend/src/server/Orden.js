@@ -10,7 +10,7 @@ const insertOrden = async (data) => {
 }
 
 const updateOrden = async (data) => {
-    return await axios.post(api + "orden/update", data);
+    return await axios.put(api + "orden/update", data);
 }
 
 const buscarOrden = async (dato) => {

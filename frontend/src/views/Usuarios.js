@@ -92,6 +92,7 @@ const Usuarios = () => {
             [event.target.name]: event.target.value
         })
     }
+
     useEffect(() => {
         obtenerDatos();
     }, []);// hasta aqui tengo los datos
