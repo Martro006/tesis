@@ -62,7 +62,7 @@ const ModalProdCreados = (props) => {
                                 id="precioI"
                                 name="precio"
                                 placeholder="Escriba el precio del producto"
-                                type="text"
+                                type="number"
                                 onChange={props.handleInputChange}
                                 value={props.entrada.precio}
                                 required

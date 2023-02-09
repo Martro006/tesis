@@ -62,8 +62,8 @@ class Login extends Component {
                                             <form onSubmit={this.eventoSubmit}>
                                                 <p>Por favor, ingrese su cuenta</p>
                                                 <div className="form-outline mb-4">
-                                                    <input type="email" value={this.state.email} onChange={this.changeEmail} className="form-control" placeholder="Correo electrónico" />
-                                                    <label className="form-label" htmlFor="form2Example11">Correo</label>
+                                                    <input type="text" value={this.state.email} onChange={this.changeEmail} className="form-control" placeholder="nombre de usuario" />
+                                                    <label className="form-label" htmlFor="form2Example11">Nombre de usuario</label>
                                                 </div>
                                                 <div className="form-outline mb-4">
                                                     <input type="password" value={this.state.password} onChange={this.changePassword} className="form-control" />

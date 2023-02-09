@@ -17,7 +17,7 @@ const deleteUsuario = async (id) => {
     return axios.put(api + "login/delete", { log_id: id });
 }
 
-export const methods = {
+export const methodsUsu = {
     getUsuario: getUsuarios,
     newUsuario: newUsuario,
     updateUsuario: updateUsuario,

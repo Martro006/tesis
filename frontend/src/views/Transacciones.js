@@ -1,4 +1,4 @@
-import { Button, ButtonGroup, Card, CardBody, CardHeader, CardTitle, Col, Row } from "reactstrap";
+import { Button,  Card, CardBody, CardHeader, Col, Row } from "reactstrap";
 
 const Transacciones = () => {
     const character = {

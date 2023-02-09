@@ -3,15 +3,15 @@ import { useEffect, useState } from 'react';
 import { mothProd } from '../server/Prod';
 import { methods } from '../server/Orden';
 import { ReactSession } from 'react-client-session';
+import { methodsUsu } from '../server/Usuario';
 
 const OrdenCli = () => {
     const [data, setData] = useState([]);
+    const [usu, usuData] = useState([]);
     const [disable, setDisable] = useState(false);
     const [disableOn, setDisableOn] = useState(true);
 
     const cliente = ReactSession.get("cliente");
-    
-    //ReactSession.set("antiref", data);
 
     const fechaHoy = new Date().toLocaleDateString('es-Es');
 
@@ -30,16 +30,25 @@ const OrdenCli = () => {
     async function obtenerDatos() {
         document.getElementById("nomCli").value = cliente.cli_nombres;
         document.getElementById("numCed").value = cliente.cli_dni;
+        document.getElementById("numCed").value = cliente.cli_dni;
+
         const res = await mothProd.getProd();
         if (res.status === 200) {
             setData(res.data);
         }
+        const resUsu = await methodsUsu.getUsuario();
+        if (resUsu.status === 200) {
+            usuData(resUsu.data);
+
+            console.log(resUsu);
+            console.log(usu);
+        }
+
     }
 
     async function guardarDatos() {
 
         let tipo = "";
-
 
         if (document.getElementById("antiref").checked === true) {
             tipo += "ANTIRREFLEJO";
@@ -454,11 +463,22 @@ const OrdenCli = () => {
                     <br />
                     <Row className="mb-5">
                         <Col>
-                            Codigo del asesor
+                            Asesor
                         </Col>
                         <br />
                         <Col>
-                            <Input type="password" autoComplete="off" id="codAsesor" />
+                            <Input type="select" autoComplete="off" id="codAsesor">
+                                <option value={""}>
+                                    Elegir
+                                </option>
+                                {
+                                    usu.map((d, index) => (
+                                        <option key={index} value={d.log_correo}>
+                                            {d.log_correo}
+                                        </option>
+                                    ))
+                                }
+                            </Input>
                         </Col>
                     </Row>
                     <Button color="success" disabled={disable} onClick={() => guardarDatos()} size="lg">GUARDAR</Button>

@@ -11,15 +11,10 @@ const navigation = [
     title: "Home",
     href: "/home",
     icon: "fa fa-home",
-  },  
+  },
   {
     title: "Transacciones",
     href: "/trans",
-    icon: "fa fa-home",
-  },
-  {
-    title: "Informes Efectivo",
-    href: "/infEfec",
     icon: "fa fa-home",
   },
   {
@@ -30,11 +25,6 @@ const navigation = [
   {
     title: "Informes Inventarios",
     href: "/infInv",
-    icon: "bi bi-bell",
-  },
-  {
-    title: "Usuarios",
-    href: "/usu",
     icon: "bi bi-bell",
   }
 ];
@@ -50,11 +40,13 @@ const Sidebar = () => {
       <div className="d-flex align-items-center"></div>
       <div
         className="profilebg"
-        style={{backgroundImage: `url(${"https://firebasestorage.googleapis.com/v0/b/opticaab-34b8f.appspot.com/o/tesis%2FTOZ.jpg?alt=media&token=c29fbd0a-fbfe-4ea4-834b-9d27de403cb9"})`,        
-        backgroundRepeat: 'no-repeat',
-        backgroundSize: "cover", minHeight: '120px'}}
+        style={{
+          backgroundImage: `url(${"https://firebasestorage.googleapis.com/v0/b/opticaab-34b8f.appspot.com/o/tesis%2FTOZ.jpg?alt=media&token=c29fbd0a-fbfe-4ea4-834b-9d27de403cb9"})`,
+          backgroundRepeat: 'no-repeat',
+          backgroundSize: "cover", minHeight: '120px'
+        }}
       >
-        <div className="p-3 d-flex">         
+        <div className="p-3 d-flex">
           <Button
             color="white"
             className="ms-auto text-white d-lg-none"
@@ -82,6 +74,21 @@ const Sidebar = () => {
               </Link>
             </NavItem>
           ))}
+          {usuario[0].log_priv === "Administrador" &&
+            <NavItem className="sidenav-bg" >
+              <Link
+                to={"/usu"}
+                className={
+                  location.pathname === "/usu"
+                    ? "active nav-link py-3"
+                    : "nav-link text-dark py-3"
+                }
+              >
+                <span className="ms-3 d-inline-block">{"Usuarios"}</span>
+              </Link>
+            </NavItem>
+          }
+
         </Nav>
       </div>
     </div>

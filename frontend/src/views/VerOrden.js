@@ -177,32 +177,6 @@ const VerOrden = () => {
         } else {
             alert("ingresar codigo de asesor");
         }
-        // console.log(entrada.ord_id);
-        // console.log(entrada.numCed);
-        // console.log(entrada.ord_fecha);
-        // console.log(entrada.odEsfera);
-        // console.log(entrada.oiEsfera);
-        // console.log(entrada.odCilindro);
-        // console.log(entrada.oiClilindro);
-        // console.log(entrada.odEje);
-        // console.log(entrada.oiEje);
-        // console.log(entrada.odDnp);
-        // console.log(entrada.oiDnp);
-        // console.log(entrada.adicion);
-        // console.log(entrada.altura);
-        // console.log(datosOrd.ord_armazon);
-        // console.log(document.getElementById("selectMaterial").value);
-        // console.log(tipo);
-        // console.log(clase);
-        // console.log(entrada.valTotal);
-        // console.log(entrada.abono);
-        // console.log(entrada.saldo);
-        // console.log(entrada.observ);
-        // console.log(document.getElementById("formaPago").value);
-        // console.log(entrada.entBancaria);
-        // console.log(entrada.numCheqTrans);
-        //console.log(document.getElementById("codAsesor").value);
-        //console.log(res.status);
     }
 
     const handleInputChange = (event) => {

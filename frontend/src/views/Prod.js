@@ -1,6 +1,5 @@
-import { Button, ButtonGroup, Card, CardBody, CardHeader, CardTitle, Col, Input, Row, Table } from "reactstrap";
+import { Button, Card, CardBody, CardHeader, Col, Input, Row, Table } from "reactstrap";
 import { useEffect, useState } from 'react';
-import { methods } from '../server/Compras';
 import { mothProd } from '../server/Prod';
 import ModalCrearProd from "./modales/ModalProdCrear";
 

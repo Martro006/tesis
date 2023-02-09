@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Button, Card, CardBody, CardHeader, Col, Modal, ModalBody, ModalFooter, ModalHeader, Row, Spinner, Table } from 'reactstrap';
-import { methods } from '../../server/Usuario';
+import { methodsUsu } from '../../server/Usuario';
 import Image from "../../components/dashboard/Image";
 import avatar from '../../assets/images/users/user5.jpg';
 import ModalForm from './modalForm';
@@ -38,9 +38,9 @@ const Plantilla = () => {
         if(entrada.email === "" || entrada.password === "" || entrada.imagen === null)
             alert("FORMULARIO INCORRECTO");
         if(entrada.opcion === 1){
-            const res = await methods.uploadFile(entrada.imagen);
+            const res = await methodsUsu.uploadFile(entrada.imagen);
             if(res.status === 200){
-                const r = await methods.newUsuario({
+                const r = await methodsUsu.newUsuario({
                     "log_correo": entrada.email,
                     "log_password": entrada.password,
                     "log_name_imagen": res.data.name,
@@ -59,7 +59,7 @@ const Plantilla = () => {
     const datosUsuario = async () => {
         try {
             setStatus(false);
-            const res = await methods.getUsuario();
+            const res = await methodsUsu.getUsuario();
             if (res.status === 200) {
                 setData(res.data);
             }

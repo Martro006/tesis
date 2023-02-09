@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
-import { Button, ButtonGroup, Card, CardBody, CardHeader, CardTitle, Col, Row, Table } from "reactstrap";
+import { Button, Card, CardBody, CardHeader, CardTitle, Col, Row, Table } from "reactstrap";
 import ModalLogin from './modales/ModalLogin';
-import { methods } from '../server/Usuario';
+import { methodsUsu } from '../server/Usuario';
+import { ReactSession } from 'react-client-session';
 import { Navigate } from 'react-router-dom';
 
 const Usuarios = () => {
@@ -18,14 +19,14 @@ const Usuarios = () => {
     });
 
     async function obtenerDatos() {
-        const res = await methods.getUsuario();
+        const res = await methodsUsu.getUsuario();
         if (res.status === 200) {
             setData(res.data);
         }
     }
 
     async function eliminarDatos(id) {
-        const res = await methods.deleteUsuario(id);
+        const res = await methodsUsu.deleteUsuario(id);
         if (res.status === 200) {
             obtenerDatos();
         }
@@ -63,7 +64,7 @@ const Usuarios = () => {
         event.preventDefault();
 
         if (entrada.opcion === 1) {
-            const res = await methods.newUsuario({
+            const res = await methodsUsu.newUsuario({
                 "log_correo": entrada.usu,
                 "log_contra": entrada.contra,
                 "log_priv": entrada.priv
@@ -73,7 +74,7 @@ const Usuarios = () => {
                 obtenerDatos();
             }
         } else if (entrada.opcion === 2) {
-            const res = await methods.updateUsuario({
+            const res = await methodsUsu.updateUsuario({
                 "log_id": entrada.id,
                 "log_correo": entrada.usu,
                 "log_contra": entrada.contra,
@@ -97,89 +98,93 @@ const Usuarios = () => {
         obtenerDatos();
     }, []);// hasta aqui tengo los datos
 
-
-    return (
-        <Card>
-            <br />
-            <CardTitle tag="h5" className="text-center" >
-                <Col className="d-flex justify-content-center align-items-center">
-                    <h3>
-                        <strong>
-                            LISTA DE USUARIOS DEL SISTEMA
-                        </strong>
-                    </h3>
-                </Col>
-            </CardTitle>
-            <CardHeader>
-                <Row>
+    if (JSON.parse(ReactSession.get("user"))[0].log_priv !== "Administrador") {
+        return (
+            <Navigate to="/home" />
+        );
+    } else {
+        return (
+            <Card>
+                <br />
+                <CardTitle tag="h5" className="text-center" >
                     <Col className="d-flex justify-content-center align-items-center">
-                        <strong>
-                            USUARIOS
-                        </strong>
+                        <h3>
+                            <strong>
+                                LISTA DE USUARIOS DEL SISTEMA
+                            </strong>
+                        </h3>
                     </Col>
-                    <Col xs="6" sm="4" lg="2" >
-                        <Button outline color='primary' size='sm' onClick={() => seleccionarOpcion(0, 1)}>
-                            Nuevo
-                        </Button>
-                    </Col>
-                </Row>
-            </CardHeader>
-            <CardBody>
-                <Table striped responsive size='sm'>
-                    <thead>
-                        <tr>
-                            <th>
-                                #
-                            </th>
-                            <th>
-                                NOMBRE USUARIO
-                            </th>
-                            <th>
-                                CONTRASEÑA
-                            </th>
-                            <th>
-                                PRIVIELEGIO
-                            </th>
-                            <th>
-                                OPCIONES
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {
-                            data.map((d, index) => (
-                                <tr key={index}>
-                                    <td>
-                                        {index + 1}
-                                    </td>
-                                    <td>
-                                        {d.log_correo}
-                                    </td>
-                                    <td>
-                                        {d.log_contra}
-                                    </td>
-                                    <td>
-                                        {d.log_priv}
-                                    </td>
-                                    <td>
-                                        <Button onClick={() => seleccionarOpcion(index, 2)}>ACTUALIZAR</Button>
-                                        <Button onClick={() => eliminarDatos(d.log_id)}>ELIMINAR</Button>
-                                    </td>
-                                </tr>
-                            ))
-                        }
-                    </tbody>
-                </Table>
-                <ModalLogin
-                    modalForm={modalForm}
-                    toggleForm={toggleForm}
-                    handleInputChange={handleInputChange}
-                    entrada={entrada}
-                    enviarDatos={enviarDatos}
-                />
-            </CardBody>
-        </Card>
-    );
+                </CardTitle>
+                <CardHeader>
+                    <Row>
+                        <Col className="d-flex justify-content-center align-items-center">
+                            <strong>
+                                USUARIOS
+                            </strong>
+                        </Col>
+                        <Col xs="6" sm="4" lg="2" >
+                            <Button outline color='primary' size='sm' onClick={() => seleccionarOpcion(0, 1)}>
+                                Nuevo
+                            </Button>
+                        </Col>
+                    </Row>
+                </CardHeader>
+                <CardBody>
+                    <Table striped responsive size='sm'>
+                        <thead>
+                            <tr>
+                                <th>
+                                    #
+                                </th>
+                                <th>
+                                    NOMBRE USUARIO
+                                </th>
+                                <th>
+                                    CONTRASEÑA
+                                </th>
+                                <th>
+                                    PRIVIELEGIO
+                                </th>
+                                <th>
+                                    OPCIONES
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {
+                                data.map((d, index) => (
+                                    <tr key={index}>
+                                        <td>
+                                            {index + 1}
+                                        </td>
+                                        <td>
+                                            {d.log_correo}
+                                        </td>
+                                        <td>
+                                            {d.log_contra}
+                                        </td>
+                                        <td>
+                                            {d.log_priv}
+                                        </td>
+                                        <td>
+                                            <Button onClick={() => seleccionarOpcion(index, 2)}>ACTUALIZAR</Button>
+                                            <Button onClick={() => eliminarDatos(d.log_id)}>ELIMINAR</Button>
+                                        </td>
+                                    </tr>
+                                ))
+                            }
+                        </tbody>
+                    </Table>
+                    <ModalLogin
+                        modalForm={modalForm}
+                        toggleForm={toggleForm}
+                        handleInputChange={handleInputChange}
+                        entrada={entrada}
+                        enviarDatos={enviarDatos}
+                    />
+                </CardBody>
+            </Card>
+        );
+    }
 }
-
 export default Usuarios;

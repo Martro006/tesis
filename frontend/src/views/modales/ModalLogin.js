@@ -61,12 +61,16 @@ const ModalLogin = (props) => {
                                 id="privI"
                                 name="priv"
                                 placeholder="privilegio del usuario"
-                                type="number"
+                                type="select"
                                 //step="0.01"
                                 onChange={props.handleInputChange}
                                 value={props.entrada.priv}
                                 required
-                            />
+                            >
+                                <option value="">Seleccionar</option>
+                                <option value="Administrador">Administrador</option>
+                                <option value="Usuario">Usuario</option>
+                            </Input>
                         </Col>
                     </FormGroup>
                 </ModalBody>

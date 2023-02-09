@@ -31,6 +31,7 @@ const FactEntr = lazy(() => import("../views/FactEntrada.js"));
 const VerFactEntr = lazy(() => import("../views/VerFactEntrada.js"));
 const OrdenCli = lazy(() => import("../views/Orden.js"));
 const VerOrden = lazy(() => import("../views/VerOrden.js"));
+const TransAsesor = lazy(() => import("../views/TransAsesor.js"));
 
 
 /*****Routes******/
@@ -65,6 +66,7 @@ const ThemeRoutes = [
       { path: "/verFactEntr", exact: true, element: <VerFactEntr /> },
       { path: "/ordenCli", exact: true, element: <OrdenCli /> },
       { path: "/verOrden", exact: true, element: <VerOrden /> },
+      { path: "/transAsesor", exact: true, element: <TransAsesor /> },
     ],
   },
   {
